@@ -83,6 +83,8 @@ $ java -Dotel.exporter=jaeger \
   -jar target/testservice1-0.0.1-SNAPSHOT.jar
 ```
 
+Open Jaeger UI to see incoming traces at <http://localhost:16686/>
+
 ## Start with propagator
 
 Start testservice1 with a propagator agent. **TODO**
