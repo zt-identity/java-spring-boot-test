@@ -63,7 +63,7 @@ not_available
 Run Jaeger all-in-one as described here: 
 <https://www.jaegertracing.io/docs/1.21/getting-started/#all-in-one>
 ```
-$ docker run -d --name jaeger \
+$ docker run -d \
   -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 \
   -p 5775:5775/udp \
   -p 6831:6831/udp \
@@ -78,7 +78,7 @@ $ docker run -d --name jaeger \
 
 Run testservice1 with an OpenTelemetry Java agent:
 ```
-$ java -Dotel.exporter=jaeger \
+$ java -Dotel.traces.exporter=jaeger \
   -javaagent:../opentelemetry-javaagent-all.jar \
   -jar target/testservice1-0.0.1-SNAPSHOT.jar
 ```
@@ -87,7 +87,13 @@ Open Jaeger UI to see incoming traces at <http://localhost:16686/>
 
 ## Start with propagator
 
-Start testservice1 with a propagator agent. **TODO**
+Start testservice1 with a ZTIdentity Java agent and enable Authorization 
+propagator `ztiauth`.
+```
+$ java -Dotel.traces.exporter=jaeger -Dotel.propagators=ztiauth \
+  -javaagent:../agent-1.0-SNAPSHOT-all.jar \
+  -jar target/testservice1-0.0.1-SNAPSHOT.jar
+```
 
 ## Test with propagator
 
